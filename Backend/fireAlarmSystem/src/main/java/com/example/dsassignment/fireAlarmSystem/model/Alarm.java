@@ -20,11 +20,11 @@ public class Alarm {
 
     //private String alarmName;
 
-    private int floorNum;
+    private int floor_num;
 
-    private int roomNum;
+    private int room_num;
 
-    private int smokeLevel;
+    private int smoke_level;
 
     private int co2level;
 

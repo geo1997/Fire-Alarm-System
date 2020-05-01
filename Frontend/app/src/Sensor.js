@@ -4,6 +4,8 @@ import {
     RadialGauge
 } from '@progress/kendo-react-gauges';
 import '@progress/kendo-theme-default/dist/all.css';
+import Logo from './images/navicon.png';
+import {Link} from 'react-router-dom';
 
 class Sensor extends Component {
     state = {
@@ -28,7 +30,7 @@ class Sensor extends Component {
     render() {
         const {alarms,isLoading} = this.state;
         if (isLoading)
-            return (<div>Loading...</div>)
+            return (<div><h3 className="text-dark">Loading...</h3></div>)
         const radialOptions = {
             pointer: {
                 value: this.state.value
@@ -37,16 +39,26 @@ class Sensor extends Component {
 
         return (
             <div>
-                <h2 className="text-center">Sensor</h2>
+                <nav className="navbar navbar-light bg-dark mb-4">
+                    <div className="navbar-brand text-light">
+                        <img src={Logo} width="30" height="30" className="d-inline-block align-top mr-2" alt=""/>
+                              Fire Alarm System
+                    </div>
+                    <ul className="navbar-nav">
+                        <li className="nav-item active">
+                            <Link to={'/'} className="nav-link text-light" href="#">Log out <span className="sr-only">(current)</span></Link>
+                        </li>
+                    </ul>
+                </nav>
                 <div className="row ml-3 mr-3">
                     {
                         alarms.map(alarm =>
-                            <div className="col-sm-4 mt-3">
+                            <div className="col-sm-4 mb-4">
                                 <div className="card">
                                     <div className="card-body" id={alarm.id}>
                                         <h3 className="card-title text-center">Sensor {alarm.id}</h3>
-                                        <h5 className="text-sm">Floor No. : {alarm.floorNum}</h5>
-                                        <h5>Floor No. : {alarm.roomNum}</h5>
+                                        <h5><span className="mr-2">Floor No.</span> : <span className="ml-2">{alarm.floorNum}</span></h5>
+                                        <h5><span className="mr-2">Room No.</span>: <span className="ml-2">{alarm.roomNum}</span></h5>
                                         <div className="w-50 mb-2" style={{marginLeft:'25%'}}>
                                             <RadialGauge {...{value:alarm.co2level*10}}/>
                                             {alarm.co2level>5 ? <div className="text-center text-danger">CO<small>2</small> Level : {alarm.co2level}</div> :

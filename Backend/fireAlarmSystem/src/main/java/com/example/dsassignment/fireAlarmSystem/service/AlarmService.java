@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +34,9 @@ public class AlarmService {
 		return alarmRepository.findById(id).orElse(null);
 	}
 
-	public String deleteAlarm(int id) {
+	public void deleteAlarm(int id) {
 		alarmRepository.deleteById(id);
-		return "alarm removed " +id;
+		
 	}
 	
 	public Alarm updateAlarm(Alarm alarm) {
@@ -48,4 +49,15 @@ public class AlarmService {
 		
 		return alarmRepository.save(existingAlarm);
 	}
+	
+	
+	public List<Integer> getIds(){
+		return alarmRepository.findIDs();
+	}
+	
+	public void updateFields(int co2, int smoke, int id) {
+		 alarmRepository.updateFields(co2, smoke, id);
+	}
+	
+	
 }

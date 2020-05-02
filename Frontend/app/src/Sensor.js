@@ -13,18 +13,17 @@ class Sensor extends Component {
         alarms: [],
         value: 0
     }
+    intervalID;
 
     async componentDidMount() {
+        await this.getData();
+        this.intervalID = setInterval(this.getData.bind(this), 40000);
+    }
+
+    async getData(){
         const response = await fetch('/alarms')
         const body = await response.json();
         this.setState({alarms : body,isLoading: false});
-        setInterval(
-            () => {
-                this.setState({
-                    value: 0
-                });
-            },
-            4000);
     }
 
     render() {

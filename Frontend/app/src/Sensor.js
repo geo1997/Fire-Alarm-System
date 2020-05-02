@@ -38,7 +38,7 @@ class Sensor extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-light bg-dark mb-4">
+                <nav className="navbar navbar-light bg-dark mb-2">
                     <div className="navbar-brand text-light">
                         <img src={Logo} width="30" height="30" className="d-inline-block align-top mr-2" alt=""/>
                               Fire Alarm System
@@ -49,6 +49,7 @@ class Sensor extends Component {
                         </li>
                     </ul>
                 </nav>
+                <div className="text-danger mb-4 text-center">*New data will be fetched every 40 seconds</div>
                 <div className="row ml-3 mr-3">
                     {
                         alarms.map(alarm =>

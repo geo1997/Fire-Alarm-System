@@ -18,10 +18,9 @@ class SmokeValueGen extends TimerTask{
 		List<Integer> ids = serviceImpl.getIds();
 		
 		
-		
 		int s = (int) (10.0 * Math.random() + 1);
 		int c = (int) (10.0 * Math.random() + 1);
-		int i = (int) (5.0 * Math.random() + 1);
+		//int i = (int) (5.0 * Math.random() + 1);
 		//System.out.println("sensor id "+getRandomElement(ids)+" smoke "+smokeLevel(s)+ " co2 "+co2Level(c));
 		
 		//serviceImpl.updateFields(co2Level(c), smokeLevel(s), getRandomElement(ids)));

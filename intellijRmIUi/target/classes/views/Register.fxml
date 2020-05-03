@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" styleClass="login-view" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rmiClient.loginForm.Login">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" styleClass="login-view" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rmiClient.registerForm.Register">
    <children>
       <HBox styleClass="login-title" />
       <VBox styleClass="login-body">
@@ -28,15 +28,15 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="errorLbl" text="User Login" GridPane.columnIndex="1" />
-                  <Label text="User Email" GridPane.rowIndex="1" />
-                  <Label text="User Password" GridPane.rowIndex="2" />
+                  <Label fx:id="errorLbl" text="User Registration" GridPane.columnIndex="1" />
+                  <Label text="Enter Email" GridPane.rowIndex="1" />
+                  <Label text="Enter Password" GridPane.rowIndex="2" />
                   <TextField fx:id="emailID" promptText="Enter User Email" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <PasswordField fx:id="password" promptText="Enter User Password" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <HBox spacing="10.0" styleClass="al-center-left" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#login" styleClass="wd-120" text="Login" />
-                        <Button fx:id="regBtn" mnemonicParsing="false" onAction="#Register" text="Register" />
+                        <Button fx:id="regBtn" mnemonicParsing="false" onAction="#regUSer" text="Register" />
                      </children>
                   </HBox>
                </children>

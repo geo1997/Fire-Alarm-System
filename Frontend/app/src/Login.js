@@ -1,36 +1,54 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect,useHistory} from 'react-router-dom';
 import Logo from "./images/navicon.png";
+import axios from 'axios';
 
 class Login extends Component {
     state = {
         email: '',
         password: '',
+        redirect: false
     }
+
 
     handleEmail(text){
         this.setState({email: text.target.value})
     }
 
     handlePassword(text){
-        this.setState({email: text.target.value})
+        this.setState({password: text.target.value})
     }
 
-    login(){
-        let obj = {}
-        obj.email = this.state.email;
-        obj.password = this.state.password;
+    login = e =>{
 
-        if(this.state.username==='' && this.state.password===''){
+        e.preventDefault();
+        console.log(this.state);
+        if(this.state.email==='' || this.state.password===''){
 
-            this.setState({showSuccessMessage:true})
-            this.setState({hasLoginFailed:false})
+            alert('Please fill out email and password')
+
         }
         else {
-            this.setState({showSuccessMessage:false})
-            this.setState({hasLoginFailed:true})
+            axios.get("http://localhost:8080/getUser/"+this.state.email)
+                .then(response =>{
+
+                    if(response.data.password===this.state.password){
+                        console.log(response)
+                        this.props.history.push('/sensor')
+                    }else{
+                        alert('Invalid password');
+                    }
+
+                })
+                .catch(error =>{
+                    console.log(error)
+                })
         }
     }
+
+
+
+
 
     render() {
         return (
@@ -45,7 +63,7 @@ class Login extends Component {
                     <div className="card" style={{marginTop:'40%'}}>
                         <div className="card-body">
                             <h3 className="card-title text-center mb-3">Login</h3>
-                            <form className="login-form">
+                            <form className="login-form" onSubmit={this.login}>
                                 <div className="form-group">
                                     <input type="email" className="form-control" id="exampleInputEmail1"
                                            aria-describedby="emailHelp" placeholder="Email" onChange={(text) =>{this.handleEmail(text)}}/>
@@ -54,7 +72,8 @@ class Login extends Component {
                                     <input type="password" className="form-control" id="exampleInputPassword1"
                                            placeholder="Password" onChange={(text) =>{this.handlePassword(text)}}/>
                                 </div>
-                                <Link to={'/sensor'}><button type="submit" className="btn btn-primary btn-lg btn-block" onClick={() => this.login()}>Login</button></Link>
+                                {/*<Link to={'/sensor'}><button type="submit" className="btn btn-primary btn-lg btn-block" onClick={() => this.login()}>Login</button></Link>*/}
+                                <button type="submit" className="btn btn-primary btn-lg btn-block">Login</button>
                             </form>
                         </div>
                     </div>

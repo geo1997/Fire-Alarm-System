@@ -31,8 +31,8 @@ class CheckForUpdates extends TimerTask{
                 if(al.getCo2level() > 5 || al.getSmokeLevel() >5){
                    EmailServiceImpl emailServiceImpl = new EmailServiceImpl();
                     SmsServiceImpl smsServiceImpl = new SmsServiceImpl();
-                   emailServiceImpl.sendEmail(emailServiceImpl.mailRequest(al.getFloorNum(),al.getRoomNum()));
-                   smsServiceImpl.sendSms(smsServiceImpl.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
+                   //emailServiceImpl.sendEmail(emailServiceImpl.mailRequest(al.getFloorNum(),al.getRoomNum()));
+                   //smsServiceImpl.sendSms(smsServiceImpl.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
 
                 }
             }

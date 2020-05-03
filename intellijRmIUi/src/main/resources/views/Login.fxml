@@ -28,7 +28,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label fx:id="errorLbl" GridPane.columnIndex="1" />
+                  <Label fx:id="errorLbl" text="User Login" GridPane.columnIndex="1" />
                   <Label text="User Email" GridPane.rowIndex="1" />
                   <Label text="User Password" GridPane.rowIndex="2" />
                   <TextField fx:id="emailID" promptText="Enter User Email" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -36,7 +36,7 @@
                   <HBox spacing="10.0" styleClass="al-center-left" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
                         <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#login" styleClass="wd-120" text="Login" />
-                        <Button mnemonicParsing="false" onAction="#Register" text="Register" />
+                        <Button fx:id="regBtn" mnemonicParsing="false" onAction="#Register" text="Register" />
                      </children>
                   </HBox>
                </children>

@@ -17,6 +17,7 @@ import rmiApi.entityService.UserService;
 import rmiApi.entityService.alarmService;
 import rmiClient.alarmForm.AlarmForm;
 import rmiClient.client.Main;
+import rmiClient.registerForm.Register;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 public class Login implements Initializable {
 
 
+        public Button regBtn;
         @FXML
         private TextField emailID;
 
@@ -102,6 +104,24 @@ public class Login implements Initializable {
 
         }
 
+        public void Register(ActionEvent actionEvent) throws IOException {
+                Stage stage = (Stage) regBtn.getScene().getWindow();
+                stage.close();
+
+                Stage primaryStage = new Stage();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Register.fxml"));
+
+                Parent root = loader.load();
+                Register reg = loader.getController();
+                reg.setMain(this.main);
+                Scene scene = new Scene(root);
+                scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
+                primaryStage.setScene(scene) ;
+
+                primaryStage.setTitle("Sensor Dashboard Register ");
+                primaryStage.show();
+        }
+
 
         public void setMain(Main main) {
                 this.main = main;
@@ -113,6 +133,5 @@ public class Login implements Initializable {
 
         }
 
-        public void Register(ActionEvent actionEvent) {
-        }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @SpringBootApplication
 public class FireAlarmSystemApplication {
 
+	//main method which runs the spring boot application
 	public static void main(String[] args) {
 		SpringApplication.run(FireAlarmSystemApplication.class, args);
 	}

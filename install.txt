@@ -1,0 +1,92 @@
+Guide to the requirments and proper deployment of the Fire Alarm System.
+
+There contains 3 main entities to this project,
+
+1. Backend  - Developed using Spring Boot.
+
+2. Frontend - Contains 2 sub entities
+
+		i. Web application     - Developed using React.
+		ii.Desktop application - Developed using JavaFX and Java RMI.
+
+3. Sensor app -Developed as a dummy application to immitate the work of a sensor application.
+
+
+Prerequisites :
+
+	1.Java 8 or above and Node.js installed in your pc.
+	2.Eclipse IDE for Enterprise Java Developers - install Spring Tool Suite using the Eclipse marketplace .
+	3.IntelliJ IDEA latest - Recommended Ultimate Edition.
+	4.Any web development code editor or IDE you prefer(Visual Studio Code, Webstorm).
+	5.Install MySQL workbench 8.0 CE and give the password as root (remember the password you give).
+
+
+Procedure to deploying
+
+A) Download the Fire-Alarm-System repository from github and extract it to your local storage.
+
+B) Create the Database.
+	1.Open MySQL workbench
+	2.Open the Local instance MYSQL80 and choose create a new schema in the connected server.
+	3.Give the DB name as alarmsystem  and execute.
+	4.Double click the DB you created to select the DB.
+	5.Select server -> Data import -> 
+				i. Choose Import from Self-Contained File and give the alarmsystem.sql file path (within the SQL folder).
+				ii.In the drop down select Dump structure and data and then click Start Import.
+				iii. After succesfully importing refresh the schema.
+
+C) Backend Usage (REST client).
+	1.Open Eclipse IDE.
+	2.Go into file -> open project from file system then go inside Backend folder and open fileAlarmSystem folder.
+		We have used Project Lombok therefore it is neccessary for it to be active. Else there would be errors in the project.
+		If it not active please follow the instructions provided in the following : https://projectlombok.org/setup/eclipse.
+
+	3.Once the project is succesfully imported ,right click project -> maven -> update, 
+		once it updated right click project ->Run as -> Spring Boot App
+
+	3a) If errors persist go into src->main->resources and open application.properties.
+		Check if the spring.datasource.(url,username,password) is correct.
+
+
+D)Sensor App Usage.
+	1.Open Eclipse IDE.
+	2.Go into file -> open project from file system, then open Sensor folder.
+	3. Run the application. (REST client should be running).
+
+
+E)JavaFx and Java RMI Desktop application.
+	1.Open IntelliJ IDEA.
+	2.Go into file -> Open and select the folder intellijRmiUi
+		If you face errors that is because the IntelliJ IDEA has choosen an incompatible JDK version.
+			i. Select file->Settings ->Build,Execution,Deployment->Compiler->Java Compiler and change Target bytecode version to 8 and apply.
+			ii. Select file->Project Structure -> Modules and change Language level to 8 and apply.
+
+	3.If no errors you have succesfully imported the project, if the errors exist please redo the above said instructions.
+
+	E1)Starting the RMI server
+		i.Go into src->main-java->rmiServer and run Main.java (REST client should be running)
+
+	E2)Starting the RMI client
+		ii.Go into src->main-java->rmiClient->client and run Main.java and you will be greeted with the login dashboard.
+
+
+	E3)Dealing with SMS and Email Service.
+		i.Once the RMI server is started the sms and email services will auomatically  run.
+			a) Sms service is a trail service therefore is limited, once the limit is passed an error is shwon but the program will run.
+
+			b) To check the Email details log into,
+				email: distributedsystems123@gmail.com
+				password:123@distributed
+
+F)Web application
+	1.Open your preffered web application code editor or IDE.
+	2.Open the Frontend folder using the editor.
+	3.Open a new terminal, and use command cd app.
+	4.Next execute the command npm install.
+	5.After dependncies are succefully installed execute command npm start.
+	
+
+	
+
+
+

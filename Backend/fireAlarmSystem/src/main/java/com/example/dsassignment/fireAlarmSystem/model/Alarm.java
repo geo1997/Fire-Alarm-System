@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
-@Data
-@Table(name = "alarm")
+@AllArgsConstructor // initialize constructor with all arguments
+@NoArgsConstructor // initialize constructor with no arguments
+@Entity  // specify the class as an entity found in the DB
+@Data // provide auto generated code for a normal class
+@Table(name = "alarm") //table name found in the db
 public class Alarm {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue //id should be auto generated an auto incremented.
     private int id;
 
-    //private String alarmName;
+ 
 
     private int floorNum;
 
@@ -28,7 +28,6 @@ public class Alarm {
 
     private int co2level;
 
-//    @ManyToOne(cascade = CascadeType.PERSIST)
-//    private User user;
+
 
 }

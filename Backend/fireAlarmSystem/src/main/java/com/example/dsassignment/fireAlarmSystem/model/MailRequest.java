@@ -1,8 +1,8 @@
-package com.example.dsassignment.fireAlarmSystem.email.dto;
+package com.example.dsassignment.fireAlarmSystem.model;
 
 import lombok.Data;
 
-@Data
+@Data // provide auto generated code for a normal class
 public class MailRequest {
 
 	private String name;

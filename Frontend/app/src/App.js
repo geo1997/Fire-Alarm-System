@@ -7,7 +7,8 @@ import Sensor from "./Sensor";
 
 function App() {
   return (
-    <Router>
+    <Router> 
+      {/* path routes to different components */}
         <div className="App">
             <Route path="/" exact component={Login} />
             <Route path="/sensor" exact component={Sensor} />

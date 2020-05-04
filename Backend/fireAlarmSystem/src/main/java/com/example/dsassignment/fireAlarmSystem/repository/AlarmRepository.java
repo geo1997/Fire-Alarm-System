@@ -15,11 +15,12 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 
 	
 
-//	//Alarm findAll(int id);s
-	@Query(value="SELECT id from alarm",nativeQuery = true)
+	// custom query to retrieve all the ids of alarms in the DB
+	@Query(value="SELECT id from alarm",nativeQuery = true) 
 	 List<Integer> findIDs();
 	
 	
+	// custom query to modify an existing record of an alarm in the DB
 	@Transactional
 	@Modifying
 	@Query(value="UPDATE alarm a set a.co2level=?1,a.smoke_level=?2 WHERE a.id=?3",nativeQuery = true)

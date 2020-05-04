@@ -10,26 +10,26 @@ import service.ServiceImpl;
 
 
 class SmokeValueGen extends TimerTask{
+	//Reference to the ServicImpl class
 	ServiceImpl serviceImpl = new ServiceImpl();
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		//Retrieve list of alarm ids using the getIds method.
 		List<Integer> ids = serviceImpl.getIds();
 		
-		
+		//generate random integer values between 1 and 10 to pass as co2 and smoke level
 		int s = (int) (10.0 * Math.random() + 1);
 		int c = (int) (10.0 * Math.random() + 1);
-		//int i = (int) (5.0 * Math.random() + 1);
-		//System.out.println("sensor id "+getRandomElement(ids)+" smoke "+smokeLevel(s)+ " co2 "+co2Level(c));
-		
-		//serviceImpl.updateFields(co2Level(c), smokeLevel(s), getRandomElement(ids)));
 		int smoke = smokeLevel(s);
 		int co2 = co2Level(c);
+		//from the list of alarm ids pick a random alarm id
 		int id = getRandomElement(ids);
 		
+		//update the co2 and smoke levels of a particular alarm imitating a real life sensor.
 		serviceImpl.updateFields(co2, smoke, id);
-		System.out.println("c02 "+co2+" smoke "+smoke+ " id "+id);
+		System.out.println("Sensor App running c02 "+co2+" smoke "+smoke+ " id "+id);
 		
 	}
 	
@@ -45,7 +45,7 @@ class SmokeValueGen extends TimerTask{
 		return i;
 	}
 	
-	
+	//method to retrieve a random alarm id
 	public int getRandomElement(List<Integer> list) 
     { 
         Random rand = new Random(); 
@@ -65,6 +65,7 @@ public class Main {
 		SmokeValueGen smokeValueGen = new SmokeValueGen();
 		Timer timer = new Timer();
 		
+		//Every 10 seconds execute, to send sensor data to REST api
 		timer.schedule(smokeValueGen, 000,10000);
 	}
 

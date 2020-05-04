@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dsassignment.fireAlarmSystem.email.dto.MailRequest;
-import com.example.dsassignment.fireAlarmSystem.email.dto.MailResponse;
-import com.example.dsassignment.fireAlarmSystem.email.service.EmailService;
+import com.example.dsassignment.fireAlarmSystem.model.MailRequest;
+import com.example.dsassignment.fireAlarmSystem.model.MailResponse;
+import com.example.dsassignment.fireAlarmSystem.service.EmailService;
 
-@RestController
+@RestController //mark EmailController class as a request handler
 public class EmailController {
 
-	@Autowired
+	@Autowired //spring injects EmailService when the EmailController is created
 	private EmailService emailService;
 	
 	
-	@PostMapping("/sendEmail")
+	@PostMapping("/sendEmail")  //handles HTTP POST request to send an Email
 	public MailResponse sendEmail(@RequestBody MailRequest request) {
 		
 		Map<String, Object> model = new HashMap<>();

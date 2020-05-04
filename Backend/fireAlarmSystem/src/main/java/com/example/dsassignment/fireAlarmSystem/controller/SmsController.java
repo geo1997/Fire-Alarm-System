@@ -1,4 +1,4 @@
-package com.example.dsassignment.fireAlarmSystem.sms;
+package com.example.dsassignment.fireAlarmSystem.controller;
 
 import javax.validation.Valid;
 
@@ -9,19 +9,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("api/sms")
+import com.example.dsassignment.fireAlarmSystem.model.SmsRequest;
+import com.example.dsassignment.fireAlarmSystem.service.TwilioService;
+ 
+@RestController //mark SmsController class as a request handler
+@RequestMapping("api/sms") //provide the url path to the service
 public class SmsController {
 
-	private final Service service;
+	private final TwilioService service;
 	
-	@Autowired
-	public SmsController(Service service) {
+	@Autowired //an instance of service is injected to the constructor when SmsController is created.
+	public SmsController(TwilioService service) {
 	// TODO Auto-generated constructor stub
 		this.service = service;
 	}
 	
-	@PostMapping
+	@PostMapping //handles HTTP POST request to send a sms
 	public void sendSms(@Valid @RequestBody SmsRequest smsRequest) {
 		service.smsSend(smsRequest);
 	}

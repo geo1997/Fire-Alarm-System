@@ -1,4 +1,4 @@
-package com.example.dsassignment.fireAlarmSystem.email.service;
+package com.example.dsassignment.fireAlarmSystem.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -14,37 +14,39 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import com.example.dsassignment.fireAlarmSystem.email.dto.MailRequest;
-import com.example.dsassignment.fireAlarmSystem.email.dto.MailResponse;
+import com.example.dsassignment.fireAlarmSystem.model.MailRequest;
+import com.example.dsassignment.fireAlarmSystem.model.MailResponse;
 
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.Configuration;
 
 
-@Service
+@Service //initialized as a service class
 public class EmailService {
 
-	@Autowired
+	@Autowired //spring injects JavaMailSender when the EmailService is created
 	private JavaMailSender sender;
 	
-	@Autowired
+	@Autowired //spring injects Configuration when the EmailService is created
 	private Configuration config;
 	
 	
+	//method implementation to send the eamil 
 	public MailResponse sendEmail(MailRequest request, Map<String, Object> model) {
-		MailResponse response = new MailResponse();
-		MimeMessage message = sender.createMimeMessage();
+		MailResponse response = new MailResponse(); //initilaize a reference to the MailResponse class
+		MimeMessage message = sender.createMimeMessage(); //creates a new JavaMail mime message.
 		try {
 			// set mediaType
 			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 					StandardCharsets.UTF_8.name());
-			// add attachment
 			
-
+			
+			// reference to the template to be used in the eamil
 			Template t = config.getTemplate("email-template.ftl");
 			String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
+			//set the values
 			helper.setTo(request.getTo());
 			helper.setText(html, true);
 			helper.setSubject(request.getSubject());

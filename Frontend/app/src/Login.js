@@ -4,31 +4,37 @@ import Logo from "./images/navicon.png";
 import axios from 'axios';
 
 class Login extends Component {
+    //initalize state 
     state = {
         email: '',
         password: '',
         redirect: false
     }
 
-
+    //on change set the email state
     handleEmail(text){
         this.setState({email: text.target.value})
     }
 
+    //on change set the password state
     handlePassword(text){
         this.setState({password: text.target.value})
     }
 
+
+    //method to execute the login functinality
     login = e =>{
 
         e.preventDefault();
         console.log(this.state);
+        //check if the fields are empty or not
         if(this.state.email==='' || this.state.password===''){
 
             alert('Please fill out email and password')
 
         }
         else {
+            //using axios fetch the user details and validate the user
             axios.get("http://localhost:8080/getUser/"+this.state.email)
                 .then(response =>{
 
@@ -36,7 +42,7 @@ class Login extends Component {
                         console.log(response)
                         this.props.history.push('/sensor')
                     }else{
-                        alert('Invalid password');
+                        alert('Invalid password or email');
                     }
 
                 })
@@ -49,7 +55,7 @@ class Login extends Component {
 
 
 
-
+        //user interface for the login component
     render() {
         return (
             <div>

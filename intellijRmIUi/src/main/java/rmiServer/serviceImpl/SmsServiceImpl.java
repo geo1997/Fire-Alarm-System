@@ -10,6 +10,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.hildan.fxgson.FxGson;
+
 import rmiApi.entityService.SmsService;
 import rmiApi.sms.SmsRequest;
 
@@ -55,6 +56,7 @@ public class SmsServiceImpl extends UnicastRemoteObject  implements SmsService {
 
             String responseBody = httpclient.execute(httpPost, responseHandler);
             System.out.println("----------------------------------------");
+            System.out.println("sms sent successfully");
             System.out.println(responseBody);
 
         } catch (IOException e) {

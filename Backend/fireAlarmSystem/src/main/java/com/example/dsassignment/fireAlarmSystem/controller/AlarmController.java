@@ -16,45 +16,41 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dsassignment.fireAlarmSystem.model.Alarm;
 import com.example.dsassignment.fireAlarmSystem.service.AlarmService;
 
-@RestController
+@RestController //mark AlarmController class as a request handler
 public class AlarmController {
 
-	@Autowired
+	@Autowired //spring injects AlarmService when the AlarmController is created
 	private AlarmService alarmService;
 	
-	@PostMapping("/addAlarm")
+	@PostMapping("/addAlarm") //handles HTTP POST request to add Alarm
 	public Alarm addAlarm(@RequestBody Alarm alarm) {
 		return alarmService.saveAlarm(alarm);
 	}
 	
-	@GetMapping("/alarms")
+	@GetMapping("/alarms")//handles HTTP GET request to get all Alarms
 	public List<Alarm> findAllAlarms(){
 		return alarmService.getAlarms();
 	}
 	
-	@GetMapping("/alarms/{id}")
-	public Alarm findAlarmById(@PathVariable int id) {
-		return alarmService.getAlarmById(id);
-	}
 	
-	@PutMapping("/updateAlarm")
+	@PutMapping("/updateAlarm")//handles HTTP PUT method to update an alarm
 	public Alarm updateAlarm(@RequestBody Alarm alarm) {
 		return alarmService.updateAlarm(alarm);
 	}
 	
 	
-	@DeleteMapping("/alarmDelete/{id}")
+	@DeleteMapping("/alarmDelete/{id}")//handles HTTP DELETE method to delete an alarm
 	public void deleteAlarm(@PathVariable int id) {
 		 alarmService.deleteAlarm(id);
 	}
 	
 	
-	@GetMapping("/getIDs")
+	@GetMapping("/getIDs")//handles HTTP GET request to get all Alarm ids
 	public List<Integer> findAllIds(){
 		return alarmService.getIds();
 	}
 	
-	@PutMapping("/updateFields/{co2}/{smoke}/{id}")
+	@PutMapping("/updateFields/{co2}/{smoke}/{id}")//handles HTTP PUT method to UPDATE particular details of an alarm
 		public void updateFields(@PathVariable int co2,@PathVariable int smoke,@PathVariable int id){
 		 alarmService.updateFields(co2, smoke, id);
 	}

@@ -7,6 +7,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -21,6 +23,7 @@ import rmiServer.serviceImpl.AlarmServiceImpl;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -62,7 +65,7 @@ public class AlarmForm implements Initializable {
         timeSeconds.set(STARTTIME);
         timeline = new Timeline();
         timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(STARTTIME+1),
+                new KeyFrame(Duration.seconds(STARTTIME),
                         new KeyValue(timeSeconds, 0)));
         timeline.playFromStart();
 
@@ -70,35 +73,57 @@ public class AlarmForm implements Initializable {
     }
 
 
-    public void onInsert(ActionEvent actionEvent) {
+    public void onInsert(ActionEvent actionEvent) throws RemoteException {
     if(isFieldValid()){
         if(isCorrectRange()){
+            if(checkForDuplicates()){
+                try {
+                    Alarm alarm = new Alarm();
+                    alarm.setRoomNum(Integer.parseInt(txtRoomNum.getText()));
+                    alarm.setFloorNum(Integer.parseInt(txtFloorNum.getText()));
+                    alarm.setSmokeLevel(Integer.parseInt(txtSmokeLevel.getText()));
+                    alarm.setCo2level(Integer.parseInt(txtCo2Level.getText()));
 
-            try {
-                Alarm alarm = new Alarm();
-                alarm.setRoomNum(Integer.parseInt(txtRoomNum.getText()));
-                alarm.setFloorNum(Integer.parseInt(txtFloorNum.getText()));
-                alarm.setSmokeLevel(Integer.parseInt(txtSmokeLevel.getText()));
-                alarm.setCo2level(Integer.parseInt(txtCo2Level.getText()));
+                    alarm = as.saveAlarm(alarm);
+                    tableView.getItems().add(alarm);
 
-                alarm = as.saveAlarm(alarm);
-                tableView.getItems().add(alarm);
+                    tableView.getItems().setAll(as.getAlarms());
+                    clearField();
 
-                tableView.getItems().setAll(as.getAlarms());
-                clearField();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+             }
 
-            } catch (RemoteException e) {
-                e.printStackTrace();
+
             }
+
+
         }
 
-
     }
 
+    public boolean checkForDuplicates() throws RemoteException {
+
+        List<Alarm> al = as.getAlarms();
+        boolean dup = true;
+
+        for (Alarm a : al) {
+
+            if (a.getFloorNum() == Integer.parseInt(txtFloorNum.getText()) && a.getRoomNum() == Integer.parseInt(txtRoomNum.getText())) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.setTitle("Duplicate Values");
+                alert.setHeaderText("Floor number and the Room number already exists");
+                alert.setContentText("Please Change Room and Floor Numbers");
+                alert.showAndWait();
+                dup=false;
+
+            }
+
+        }
+        return dup;
     }
-
-
-
 
 
 
@@ -237,7 +262,7 @@ public class AlarmForm implements Initializable {
         clearField();
     }
 
-    public  void TableRefresh(){
+    public void TableRefresh(){
         colId.setCellValueFactory(new PropertyValueFactory<Alarm,Integer>("id"));
         colFloorNum.setCellValueFactory(new PropertyValueFactory<>("floorNum"));
         colRoomNum.setCellValueFactory(new PropertyValueFactory<>("roomNum"));
@@ -245,6 +270,20 @@ public class AlarmForm implements Initializable {
         colCo2level.setCellValueFactory(new PropertyValueFactory<>("co2level"));
     }
 
+    ScheduledService<Integer> service = new ScheduledService<Integer>() {
+        @Override
+        protected Task<Integer> createTask() {
+            return new Task<Integer>() {
+                @Override
+                protected Integer call() throws Exception {
+                    tableView.getItems().setAll(as.getAlarms());
+                    startTimer();
+                    System.out.println("i run");
+                    return 0;
+                }
+            };
+        }
+    };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -279,6 +318,9 @@ public class AlarmForm implements Initializable {
     public void setMain(Main main){
         this.main = main;
         this.as = main.getAlarmService();
+        service.setPeriod(Duration.seconds(15));
+        service.start();
+
 
 
 

@@ -8,6 +8,7 @@ import Logo from './images/navicon.png';
 import {Link} from 'react-router-dom';
 
 class Sensor extends Component {
+    //initilaize the state of the variables
     state = {
         isLoading: true,
         alarms: [],
@@ -16,16 +17,27 @@ class Sensor extends Component {
     intervalID;
 
     async componentDidMount() {
+        /*when conponentDidMount executes run getData method and setInterval to 4 seconds
+            to automatically retrieve data using the REST api
+        */
         await this.getData();
+        
         this.intervalID = setInterval(this.getData.bind(this), 40000);
+        setInterval( () =>{
+            this.setState({
+                value:this.state.value
+            })
+        },0);
     }
 
+    //method to fetch the alarms through the REST api
     async getData(){
         const response = await fetch('/alarms')
         const body = await response.json();
         this.setState({alarms : body,isLoading: false});
     }
 
+    //user interface for the Sensor component
     render() {
         const {alarms,isLoading} = this.state;
         if (isLoading)

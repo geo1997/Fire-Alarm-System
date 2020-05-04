@@ -19,8 +19,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class ServiceImpl {
-
-	public   List<Integer> getIds(){
+	
+	//Method to send HTTP GET request to the REST api and retrieve list of alarm ids.
+	public List<Integer> getIds(){
 		
 		List <Integer> Ids = null;
 		
@@ -56,20 +57,14 @@ public class ServiceImpl {
 	}
 
 	
+	//Method to send PUT request to the REST api to update sensor details
 	public  void updateFields(int co2, int smoke , int id) {
 		
 		 try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+			//HTTP POST method
              HttpPut httpPut = new HttpPut("http://localhost:8080/updateFields/"+co2+"/"+smoke+"/"+id);
              httpPut.setHeader("Accept", "application/json");
              httpPut.setHeader("Content-type", "application/json");
-
-//             Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-//             String json = gson.toJson(alarm);
-//
-//             StringEntity stringEntity = new StringEntity(json);
-//             httpPut.setEntity(stringEntity);
-//
-//             System.out.println("Executing request " + httpPut.getRequestLine());
 
              // Create a custom response handler
              ResponseHandler < String > responseHandler = response -> {
@@ -90,9 +85,6 @@ public class ServiceImpl {
      }
 
 	}
-	
-	
-	
 	
 
 	

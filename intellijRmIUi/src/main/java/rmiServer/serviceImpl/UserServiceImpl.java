@@ -22,6 +22,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+/* Default constructor to throw RemoteException
+     from its parent constructor */
 public class UserServiceImpl extends UnicastRemoteObject implements UserService {
 
     public UserServiceImpl() throws RemoteException {
@@ -29,11 +31,14 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
 
     @Override
     public User getUser(String email) throws RemoteException {
-
+        //Set user to null
         User user = null;
+         /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            //HTTP GET method
+            //HTTP GET method allows to get user details according to the email
             HttpGet httpget = new HttpGet("http://localhost:8080/getUser/"+email);
             System.out.println("Executing request " + httpget.getRequestLine());
 
@@ -51,8 +56,7 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
             System.out.println("----------------------------------------");
             System.out.println(responseBody);
 
-            //Gson gson = new Gson();
-            //Type alarmListType = new TypeToken<ArrayList<Alarm>>(){}.getType();
+            //Convert JSON response to user object
             Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
              user = gson.fromJson(responseBody, User.class);
 
@@ -60,28 +64,29 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
             e.printStackTrace();
         }
 
-
-
+        //Return user
         return user;
     }
 
     @Override
     public User addUser(User newUser) throws RemoteException {
-
+            //get values from User reference passed
         newUser.getEmail();
         newUser.getPassword();
-
-
+        /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
         try(CloseableHttpClient httpclient = HttpClients.createDefault()){
+            //HTTP POST method url add new user using rest api
             HttpPost httpPost = new HttpPost("http://localhost:8080/addUser");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
 
-            //Gson gson = new Gson();
+            //Convert user object to JSON response
             Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
             String json = gson.toJson(newUser);
 
-
+            //pass the json string request in the entity
             StringEntity stringEntity = new StringEntity(json);
             httpPost.setEntity(stringEntity);
             System.out.println("Executing request " + httpPost.getRequestLine());
@@ -105,7 +110,7 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
             e.printStackTrace();
         }
 
-
+        //Return the newly added user
         return newUser;
     }
 }

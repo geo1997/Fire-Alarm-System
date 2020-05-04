@@ -70,7 +70,7 @@ public class Login implements Initializable {
                 String email = emailID.getText();
 
                 User u =userService.getUser(email);
-
+                //checks whether the user information is correct
                 if(u == null){
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.initModality(Modality.APPLICATION_MODAL);
@@ -85,14 +85,16 @@ public class Login implements Initializable {
         }
 
         public boolean checkPassword() throws RemoteException {
+                //get the email and password from login form
                 String email = emailID.getText();
                 String pass = password.getText();
 
                 User u = userService.getUser(email);
-
+                //If email and password match, allow the user to login
                 if(email.equals(u.getEmail()) && pass.equals(u.getPassword())){
                         return true;
-                }else{
+                }//If email and password incorrect, show error alert
+                else{
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.initModality(Modality.APPLICATION_MODAL);
                         alert.setTitle("Invalid Fields");
@@ -105,6 +107,7 @@ public class Login implements Initializable {
         }
 
         public void Register(ActionEvent actionEvent) throws IOException {
+                //On button click show the register view
                 Stage stage = (Stage) regBtn.getScene().getWindow();
                 stage.close();
 

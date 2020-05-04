@@ -47,10 +47,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-
+//The AlarmServiceImpl extends UnicastRemoteObject
 public class AlarmServiceImpl extends UnicastRemoteObject implements alarmService {
 
-
+    /* Default constructor to throw RemoteException
+       from its parent constructor */
     public AlarmServiceImpl() throws RemoteException {
     }
 
@@ -58,28 +59,31 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
     public Alarm saveAlarm(Alarm alarm) throws RemoteException {
 
 
-
+        //get values from the AlarmForm
         alarm.getFloorNum();
         alarm.getRoomNum();
         alarm.getSmokeLevel();
         alarm.getCo2level();
 
-
+        /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
         try(CloseableHttpClient httpclient = HttpClients.createDefault()){
+            //HTTP POST method url add alarms using rest api
             HttpPost httpPost = new HttpPost("http://localhost:8080/addAlarm");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
 
-          //Gson gson = new Gson();
+            //Convert alarm object to JSON response
             Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
           String json = gson.toJson(alarm);
 
-
+            //pass the json string request in the entity
             StringEntity stringEntity = new StringEntity(json);
             httpPost.setEntity(stringEntity);
             System.out.println("Executing request " + httpPost.getRequestLine());
 
-
+            //Check the response status
             ResponseHandler < String > responseHandler = response -> {
                 int status = response.getStatusLine().getStatusCode();
                 if (status >= 200 && status < 300) {
@@ -97,18 +101,19 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        //Returns the newly created alarm object
         return alarm;
     }
 
     @Override
     public List<Alarm> getAlarms() throws RemoteException {
         ArrayList <Alarm> alarms = null;
-
-
+        /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            //HTTP GET method
+            //HTTP GET method url retrieves alarms using rest api
             HttpGet httpget = new HttpGet("http://localhost:8080/alarms");
             System.out.println("Executing request " + httpget.getRequestLine());
 
@@ -126,29 +131,27 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
             System.out.println("----------------------------------------");
             System.out.println(responseBody);
 
-            //Gson gson = new Gson();
+            //Allow GSON to identify array list of alarm type
             Type alarmListType = new TypeToken<ArrayList<Alarm>>(){}.getType();
+            //Convert JSON response to alarm list
             Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
               alarms = gson.fromJson(responseBody,alarmListType);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //Returns alarm list
         return alarms;
     }
 
-    @Override
-    public Alarm getAlarmById(int id) throws RemoteException {
-
-
-
-        return null;
-    }
 
     @Override
     public void deleteAlarm(int id) throws RemoteException {
+        /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-
+            //HTTP DELETE method url deletes alarms according to their id using rest api
 
 
             HttpDelete httpDelete = new HttpDelete("http://localhost:8080/alarmDelete/"+id);
@@ -175,7 +178,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
 
     @Override
     public Alarm updateAlarm(Alarm alarm) throws RemoteException {
-
+        //get values from the alarm reference passed
         alarm.getId();
         alarm.getFloorNum();
         alarm.getRoomNum();
@@ -183,15 +186,20 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         alarm.getCo2level();
 
 
-
+        /*Initialize the apache httpclient used to send http requests and response to the
+        rest client
+         */
             try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+                //HTTP PUT method url updates alarms according to their id using rest api
                 HttpPut httpPut = new HttpPut("http://localhost:8080/updateAlarm");
                 httpPut.setHeader("Accept", "application/json");
                 httpPut.setHeader("Content-type", "application/json");
 
+                //Convert alarm object to JSON response
                 Gson gson = FxGson.coreBuilder().setPrettyPrinting().disableHtmlEscaping().create();
                 String json = gson.toJson(alarm);
 
+                //pass the json string request in the entity
                 StringEntity stringEntity = new StringEntity(json);
                 httpPut.setEntity(stringEntity);
 
@@ -216,7 +224,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         }
 
 
-
+        //Returns the updated alarm object
         return alarm;
     }
 

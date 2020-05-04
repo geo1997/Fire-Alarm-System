@@ -7,6 +7,11 @@ import javafx.beans.property.SimpleLongProperty;
 
 import java.io.*;
 
+/*Implement Alarm modal class by defining setters and getters
+and constructor and the modal class has implemented the Externalizable interface
+by extending the Serializable interface
+ */
+
 public class Alarm implements Externalizable {
 
 

@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+/*Implement User modal class by defining setters and getters
+and constructor and the modal class has implemented the Externalizable interface
+by extending the Serializable interface
+ */
 public class User implements Externalizable {
 
     private final IntegerProperty id = new SimpleIntegerProperty();

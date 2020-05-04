@@ -3,6 +3,7 @@ package rmiClient.alarmForm;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -59,15 +60,18 @@ public class AlarmForm implements Initializable {
 
 
     public void startTimer(){
-        if (timeline != null) {
-            timeline.stop();
-        }
-        timeSeconds.set(STARTTIME);
-        timeline = new Timeline();
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(STARTTIME),
-                        new KeyValue(timeSeconds, 0)));
-        timeline.playFromStart();
+        Platform.runLater(() ->{
+            if (timeline != null) {
+                timeline.stop();
+            }
+            timeSeconds.set(STARTTIME);
+            timeline = new Timeline();
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.seconds(STARTTIME),
+                            new KeyValue(timeSeconds, 0)));
+            timeline.playFromStart();
+        });
+
 
 
     }
@@ -78,13 +82,17 @@ public class AlarmForm implements Initializable {
         if(isCorrectRange()){
             if(checkForDuplicates()){
                 try {
+                     /* An Alarm refernece is intialized and the values from the form fields
+                are set to the alarm reference */
                     Alarm alarm = new Alarm();
                     alarm.setRoomNum(Integer.parseInt(txtRoomNum.getText()));
                     alarm.setFloorNum(Integer.parseInt(txtFloorNum.getText()));
                     alarm.setSmokeLevel(Integer.parseInt(txtSmokeLevel.getText()));
                     alarm.setCo2level(Integer.parseInt(txtCo2Level.getText()));
 
+                    //The saveAlarm() method of AlarmServiceImpl is executed by passing the alarm reference
                     alarm = as.saveAlarm(alarm);
+                    //The new alarm is displayed in the table using the getItems() method defined in the tableView
                     tableView.getItems().add(alarm);
 
                     tableView.getItems().setAll(as.getAlarms());
@@ -126,7 +134,7 @@ public class AlarmForm implements Initializable {
     }
 
 
-
+    //checks if the form fields are null
     private boolean isFieldValid() {
         String errorMessage="";
 
@@ -158,7 +166,7 @@ public class AlarmForm implements Initializable {
 
     }
 
-
+    //Checks if the smoke level and the CO2 levels are in range of 1 and 10
     private boolean isCorrectRange() {
 
         String errorMessage="";
@@ -181,7 +189,7 @@ public class AlarmForm implements Initializable {
             return false;
         }
     }
-
+    //Set form fields to null after submitting form
     private void clearField() {
         txtId.setText("");
         txtFloorNum.setText("");
@@ -192,9 +200,10 @@ public class AlarmForm implements Initializable {
     }
 
     public void onUpdate(ActionEvent actionEvent) {
+        //Pass the table row index selected to an index varaible
         int index = tableView.getSelectionModel().getSelectedIndex();
         System.out.println(index);
-
+        //Checks if an alarm is selected from the table
         if(index == -1){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -207,6 +216,8 @@ public class AlarmForm implements Initializable {
 
        if(isFieldValid()){
            if(isCorrectRange()){
+                /* An Alarm reference is initialized and the values from the form fields
+                are set to the alarm reference */
                Alarm a = new Alarm();
                a.setId(Integer.valueOf(txtId.getText()));
                a.setFloorNum(Integer.valueOf(txtFloorNum.getText()));
@@ -215,7 +226,7 @@ public class AlarmForm implements Initializable {
                a.setCo2level(Integer.valueOf(txtCo2Level.getText()));
 
                try {
-                   //index=Integer.valueOf(txtId.getText());
+                   //Execute updateAlarm() method in alarmService and pass the updated alarm data to the tableView
                    as.updateAlarm(a);
                    tableView.getItems().set(index,a);
                    tableView.getItems().setAll(as.getAlarms());
@@ -231,13 +242,17 @@ public class AlarmForm implements Initializable {
 
 
     public void onDelete(ActionEvent actionEvent) {
+        //Retrieve the selected row index value of table to pass as the alarm id
         Alarm alarm = tableView.getSelectionModel().getSelectedItem();
-
+        //Checks if an alard id is selected
         if(alarm == null){
             return;
         }
 
         try {
+             /*The deleteAlarm() method of AlarmServiceImpl is executed by passing the
+           alarm id and the respective alarm data is removed from the table
+             */
             as.deleteAlarm(alarm.getId());
             tableView.getItems().remove(alarm);
 
@@ -251,7 +266,7 @@ public class AlarmForm implements Initializable {
     }
 
     public void onRefresh(ActionEvent actionEvent) {
-
+        //Invoke the getAlarms() method on click of the refresh button and reset timer
         try {
             tableView.getItems().setAll(as.getAlarms());
             startTimer();
@@ -262,6 +277,7 @@ public class AlarmForm implements Initializable {
         clearField();
     }
 
+    //Fill the table colomns with the id, floor number, room number, smoke level and co2 level
     public void TableRefresh(){
         colId.setCellValueFactory(new PropertyValueFactory<Alarm,Integer>("id"));
         colFloorNum.setCellValueFactory(new PropertyValueFactory<>("floorNum"));
@@ -287,6 +303,7 @@ public class AlarmForm implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Execute the timer
         lblTimer.textProperty().bind(timeSeconds.asString());
         lblTimer.setTextFill(Color.RED);
         lblTimer.setStyle("-fx-font-size: 4em;");
@@ -314,10 +331,11 @@ public class AlarmForm implements Initializable {
 
 
 
-
+    //Execute method when loading
     public void setMain(Main main){
         this.main = main;
         this.as = main.getAlarmService();
+        Thread t = new Thread();
         service.setPeriod(Duration.seconds(15));
         service.start();
 

@@ -31,25 +31,7 @@ public class Register implements Initializable {
     private UserService userService;
 
     public void login(ActionEvent actionEvent) throws IOException {
-//        Login l = new Login();
-//
-//        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/alarmForm.fxml"));
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
-//
-//        Parent root = loader.load();
-//
-//        //AlarmForm form = loader.getController();
-//        Login form = loader.getController();
-//        form.setMain(this);
-//
-//        Scene scene = new Scene(root);
-//        scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
-//        primaryStage.setScene(scene) ;
-//
-//        primaryStage.setTitle("Sensor Dashboard Login");
-//        primaryStage.show();
-
-
+        //On button click show the login view
         Stage stage = (Stage) loginBtn.getScene().getWindow();
         stage.close();
 
@@ -72,10 +54,13 @@ public class Register implements Initializable {
         if(checkEmail()){
             if(isValid(email)){
                 if(EmailCheck(email)) {
+                     /* A user reference is initialized and the values from the form fields
+                    are set to the user reference */
                     User u = new User();
                     u.setEmail(emailID.getText());
                     u.setPassword(password.getText());
                     User newU = userService.addUser(u);
+                    //If there is no user details added to the form, an error alert is shown
                     if (newU == null) {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
                         alert.initModality(Modality.APPLICATION_MODAL);
@@ -83,7 +68,8 @@ public class Register implements Initializable {
                         alert.setHeaderText("Error");
                         alert.setContentText("Please Try Again");
                         alert.showAndWait();
-                    } else {
+                    } //If correct user details added to the form, an alert is shown indicating the success
+                    else {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                         alert.initModality(Modality.APPLICATION_MODAL);
                         alert.setTitle("Successfully Added ");
@@ -100,12 +86,12 @@ public class Register implements Initializable {
     }
 
 
-
+    //Checks if the email and password are correct
     public boolean checkEmail() {
         String email = emailID.getText();
         String pw = password.getText();
 
-
+        //Create an error alert
         if(emailID.getText() == null || emailID.getText().isEmpty() || password.getText()== null|| password.getText().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
@@ -119,12 +105,14 @@ public class Register implements Initializable {
         }
     }
 
-
+    //Checks the email syntax
     public boolean isValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         if (email.matches(regex)) {
+            //Return true if the syntax is correct
             return true;
         }else{
+            //If the syntax is incorrect, create an error alert
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.setTitle("Invalid Email");
@@ -135,13 +123,14 @@ public class Register implements Initializable {
         }
 
     }
-
+    //checks whether if the email is already registered
     public boolean EmailCheck(String email) throws RemoteException {
        User u =  userService.getUser(email);
 
        if(u == null){
            return true;
        }else{
+           //Show error alert if the user already exist
            Alert alert = new Alert(Alert.AlertType.ERROR);
            alert.initModality(Modality.APPLICATION_MODAL);
            alert.setTitle("Email Exist");

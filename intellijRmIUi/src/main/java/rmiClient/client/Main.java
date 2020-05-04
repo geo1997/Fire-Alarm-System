@@ -21,6 +21,7 @@ public class Main extends Application {
     @Override
 
     public void start(Stage primaryStage) throws Exception {
+        //Bind the service with registry
         Registry registry = LocateRegistry.getRegistry("localhost",8081);
 
         as = (alarmService) registry.lookup("alarmService");

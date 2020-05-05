@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import * as ReactDOM from 'react-dom';
+
 import {
     RadialGauge
 } from '@progress/kendo-react-gauges';
@@ -73,13 +73,7 @@ class Sensor extends Component {
         const {alarms,isLoading} = this.state;
         if (isLoading)
             return (<div><h3 className="text-dark">Loading...</h3></div>)
-        const radialOptions = {
-            pointer: {
-                value: this.state.value
-            }
-        };
-
-
+     
 
         return (
             <div>

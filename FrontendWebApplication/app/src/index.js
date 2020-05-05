@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import Sensor from "./Sensor";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from "./Login";
 
 ReactDOM.render(<App/>,document.getElementById('root'));
 

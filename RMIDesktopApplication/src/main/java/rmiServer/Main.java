@@ -37,8 +37,8 @@ class CheckForUpdates extends TimerTask{
                     EmailServiceImpl emailService = new EmailServiceImpl();
                     SmsServiceImpl smsService = new SmsServiceImpl();
 
-                   emailService.sendEmail(emailService.mailRequest(al.getFloorNum(),al.getRoomNum()));
-                   smsService.sendSms(smsService.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
+                    //emailService.sendEmail(emailService.mailRequest(al.getFloorNum(),al.getRoomNum()));
+                   //smsService.sendSms(smsService.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
 
                 }
             }

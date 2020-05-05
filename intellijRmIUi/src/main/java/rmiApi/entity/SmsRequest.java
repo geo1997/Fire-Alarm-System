@@ -1,5 +1,6 @@
-package rmiApi.sms;
+package rmiApi.entity;
 
+//model class implementation to create a SmsRequest
 public class SmsRequest {
 
     private String phoneNumber;

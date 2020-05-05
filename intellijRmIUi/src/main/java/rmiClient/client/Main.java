@@ -24,30 +24,20 @@ public class Main extends Application {
         //Bind the service with registry
         Registry registry = LocateRegistry.getRegistry("localhost",8081);
 
+        //getting the stub object by the lookup() method of the Naming class and invoking the method on this object.
         as = (alarmService) registry.lookup("alarmService");
         userService = (UserService) registry.lookup("userService") ;
-
-
+        //setting the login scene
         Login l = new Login();
-
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/alarmForm.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
-
         Parent root = loader.load();
-
-        //AlarmForm form = loader.getController();
         Login form = loader.getController();
         form.setMain(this);
-
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/styles/application.css").toExternalForm());
         primaryStage.setScene(scene) ;
-
         primaryStage.setTitle("Sensor Dashboard Login");
         primaryStage.show();
-
-
-
 
     }
 

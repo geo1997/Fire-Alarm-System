@@ -1,5 +1,4 @@
 package rmiClient.registerForm;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,7 +14,6 @@ import rmiApi.entity.User;
 import rmiApi.entityService.UserService;
 import rmiClient.client.Main;
 import rmiClient.loginForm.Login;
-
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -30,6 +28,7 @@ public class Register implements Initializable {
     private Main main;
     private UserService userService;
 
+    //loginBtn event handler
     public void login(ActionEvent actionEvent) throws IOException {
         //On button click show the login view
         Stage stage = (Stage) loginBtn.getScene().getWindow();
@@ -49,6 +48,7 @@ public class Register implements Initializable {
         primaryStage.show();
     }
 
+    //regBtn event handler
     public void regUSer(ActionEvent actionEvent) throws RemoteException {
         String email = emailID.getText();
         if(checkEmail()){
@@ -152,7 +152,5 @@ public class Register implements Initializable {
 
     }
 
-    public void Register(ActionEvent actionEvent) {
-    }
 
 }

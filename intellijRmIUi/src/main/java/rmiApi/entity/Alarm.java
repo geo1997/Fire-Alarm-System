@@ -1,10 +1,7 @@
 package rmiApi.entity;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
-
 import java.io.*;
 
 /*Implement Alarm modal class by defining setters and getters

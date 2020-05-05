@@ -1,6 +1,6 @@
-package rmiApi.email;
+package rmiApi.entity;
 
-
+//implement emailRequest model class
 public class MailRequest {
 
 	private String name;

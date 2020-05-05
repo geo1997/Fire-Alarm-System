@@ -1,10 +1,8 @@
 package rmiApi.entity;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;

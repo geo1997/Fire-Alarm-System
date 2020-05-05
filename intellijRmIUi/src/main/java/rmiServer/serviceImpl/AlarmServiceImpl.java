@@ -1,51 +1,25 @@
 package rmiServer.serviceImpl;
-
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleLongProperty;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
-
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-
 import org.apache.http.util.EntityUtils;
 import org.hildan.fxgson.FxGson;
 import rmiApi.entity.Alarm;
 import rmiApi.entityService.alarmService;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import java.io.IOException;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+
 
 //The AlarmServiceImpl extends UnicastRemoteObject
 public class AlarmServiceImpl extends UnicastRemoteObject implements alarmService {
@@ -55,11 +29,11 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
     public AlarmServiceImpl() throws RemoteException {
     }
 
+    //method implementation to save an alarm by passing an alarm object and returning the new alarm
     @Override
     public Alarm saveAlarm(Alarm alarm) throws RemoteException {
 
-
-        //get values from the AlarmForm
+        //get values from the alarm reference passed
         alarm.getFloorNum();
         alarm.getRoomNum();
         alarm.getSmokeLevel();
@@ -69,7 +43,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         rest client
          */
         try(CloseableHttpClient httpclient = HttpClients.createDefault()){
-            //HTTP POST method url add alarms using rest api
+            //HTTP POST method url to add alarms using rest api
             HttpPost httpPost = new HttpPost("http://localhost:8080/addAlarm");
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
@@ -105,6 +79,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         return alarm;
     }
 
+    //method implementation to get all the alarms as a list
     @Override
     public List<Alarm> getAlarms() throws RemoteException {
         ArrayList <Alarm> alarms = null;
@@ -113,7 +88,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
          */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            //HTTP GET method url retrieves alarms using rest api
+            //HTTP GET method url to retrieve alarms using rest api
             HttpGet httpget = new HttpGet("http://localhost:8080/alarms");
             System.out.println("Executing request " + httpget.getRequestLine());
 
@@ -145,15 +120,14 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
     }
 
 
+    //method implementation to delete an alarm by passing the id
     @Override
     public void deleteAlarm(int id) throws RemoteException {
         /*Initialize the apache httpclient used to send http requests and response to the
         rest client
          */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-            //HTTP DELETE method url deletes alarms according to their id using rest api
-
-
+            //HTTP DELETE method url to delete alarms according to their id using rest api
             HttpDelete httpDelete = new HttpDelete("http://localhost:8080/alarmDelete/"+id);
             System.out.println("Executing request " + httpDelete.getRequestLine());
 
@@ -176,6 +150,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
 
     }
 
+    //method implementation to update an existing alarm
     @Override
     public Alarm updateAlarm(Alarm alarm) throws RemoteException {
         //get values from the alarm reference passed
@@ -190,7 +165,7 @@ public class AlarmServiceImpl extends UnicastRemoteObject implements alarmServic
         rest client
          */
             try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
-                //HTTP PUT method url updates alarms according to their id using rest api
+                //HTTP PUT method url to update alarms according to their id using rest api
                 HttpPut httpPut = new HttpPut("http://localhost:8080/updateAlarm");
                 httpPut.setHeader("Accept", "application/json");
                 httpPut.setHeader("Content-type", "application/json");

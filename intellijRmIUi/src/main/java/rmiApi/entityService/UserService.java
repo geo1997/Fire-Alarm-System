@@ -1,7 +1,5 @@
 package rmiApi.entityService;
-
 import rmiApi.entity.User;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

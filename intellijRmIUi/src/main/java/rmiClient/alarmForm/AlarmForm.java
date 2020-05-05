@@ -1,5 +1,4 @@
 package rmiClient.alarmForm;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -20,16 +19,10 @@ import javafx.util.Duration;
 import rmiApi.entity.Alarm;
 import rmiApi.entityService.alarmService;
 import rmiClient.client.Main;
-import rmiServer.serviceImpl.AlarmServiceImpl;
-
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
-
-
 
 
 public class AlarmForm implements Initializable {
@@ -47,18 +40,13 @@ public class AlarmForm implements Initializable {
     public TableColumn<Alarm, Integer> colSmokeLevel;
     public TableColumn<Alarm, Integer> colCo2level;
     public Label lblTimer;
-
-
-
-
     private Main main;
     private alarmService as;
-
     private static final Integer STARTTIME = 15;
     private Timeline timeline;
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(STARTTIME);
 
-
+    //method to initilize the timer
     public void startTimer(){
         Platform.runLater(() ->{
             if (timeline != null) {
@@ -72,11 +60,9 @@ public class AlarmForm implements Initializable {
             timeline.playFromStart();
         });
 
-
-
     }
 
-
+    //insert button event handler
     public void onInsert(ActionEvent actionEvent) throws RemoteException {
     if(isFieldValid()){
         if(isCorrectRange()){
@@ -111,6 +97,7 @@ public class AlarmForm implements Initializable {
 
     }
 
+    //method to check for existing values of floor and room number in the database
     public boolean checkForDuplicates() throws RemoteException {
 
         List<Alarm> al = as.getAlarms();
@@ -199,7 +186,8 @@ public class AlarmForm implements Initializable {
 
     }
 
-    public void onUpdate(ActionEvent actionEvent) {
+    // update button event handler
+    public void onUpdate(ActionEvent actionEvent) throws RemoteException {
         //Pass the table row index selected to an index varaible
         int index = tableView.getSelectionModel().getSelectedIndex();
         System.out.println(index);
@@ -216,31 +204,34 @@ public class AlarmForm implements Initializable {
 
        if(isFieldValid()){
            if(isCorrectRange()){
-                /* An Alarm reference is initialized and the values from the form fields
+               if(checkForDuplicates()){
+                    /* An Alarm reference is initialized and the values from the form fields
                 are set to the alarm reference */
-               Alarm a = new Alarm();
-               a.setId(Integer.valueOf(txtId.getText()));
-               a.setFloorNum(Integer.valueOf(txtFloorNum.getText()));
-               a.setRoomNum(Integer.valueOf(txtRoomNum.getText()));
-               a.setSmokeLevel(Integer.valueOf(txtSmokeLevel.getText()));
-               a.setCo2level(Integer.valueOf(txtCo2Level.getText()));
+                   Alarm a = new Alarm();
+                   a.setId(Integer.valueOf(txtId.getText()));
+                   a.setFloorNum(Integer.valueOf(txtFloorNum.getText()));
+                   a.setRoomNum(Integer.valueOf(txtRoomNum.getText()));
+                   a.setSmokeLevel(Integer.valueOf(txtSmokeLevel.getText()));
+                   a.setCo2level(Integer.valueOf(txtCo2Level.getText()));
 
-               try {
-                   //Execute updateAlarm() method in alarmService and pass the updated alarm data to the tableView
-                   as.updateAlarm(a);
-                   tableView.getItems().set(index,a);
-                   tableView.getItems().setAll(as.getAlarms());
-                   clearField();
-               } catch (RemoteException e) {
-                   e.printStackTrace();
+                   try {
+                       //Execute updateAlarm() method in alarmService and pass the updated alarm data to the tableView
+                       as.updateAlarm(a);
+                       tableView.getItems().set(index,a);
+                       tableView.getItems().setAll(as.getAlarms());
+                       clearField();
+                   } catch (RemoteException e) {
+                       e.printStackTrace();
+                   }
                }
+
            }
        }
 
     }
 
 
-
+    //udelete button event handler
     public void onDelete(ActionEvent actionEvent) {
         //Retrieve the selected row index value of table to pass as the alarm id
         Alarm alarm = tableView.getSelectionModel().getSelectedItem();
@@ -265,6 +256,7 @@ public class AlarmForm implements Initializable {
 
     }
 
+    //refresh button event handler
     public void onRefresh(ActionEvent actionEvent) {
         //Invoke the getAlarms() method on click of the refresh button and reset timer
         try {
@@ -286,6 +278,7 @@ public class AlarmForm implements Initializable {
         colCo2level.setCellValueFactory(new PropertyValueFactory<>("co2level"));
     }
 
+    //javafx method used to refresh gui components in the background
     ScheduledService<Integer> service = new ScheduledService<Integer>() {
         @Override
         protected Task<Integer> createTask() {
@@ -294,13 +287,14 @@ public class AlarmForm implements Initializable {
                 protected Integer call() throws Exception {
                     tableView.getItems().setAll(as.getAlarms());
                     startTimer();
-                    System.out.println("i run");
+                    //System.out.println("i run");
                     return 0;
                 }
             };
         }
     };
 
+    //when the AlarmForm is loaded first thing to be executed
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Execute the timer
@@ -311,6 +305,7 @@ public class AlarmForm implements Initializable {
         TableRefresh();
         startTimer();
 
+        // add listners to every row in the table, when row clicked retrieve the values and set them in text fields
         tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Alarm>() {
             @Override
             public void changed(ObservableValue<? extends Alarm> observable, Alarm oldValue, Alarm newValue) {
@@ -335,12 +330,9 @@ public class AlarmForm implements Initializable {
     public void setMain(Main main){
         this.main = main;
         this.as = main.getAlarmService();
-        Thread t = new Thread();
+        //background tasks refreshes every 15 seconds
         service.setPeriod(Duration.seconds(15));
         service.start();
-
-
-
 
         try {
             tableView.getItems().setAll(as.getAlarms());

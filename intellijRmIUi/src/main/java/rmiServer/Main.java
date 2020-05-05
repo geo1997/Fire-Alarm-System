@@ -1,38 +1,43 @@
 package rmiServer;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import rmiApi.email.MailRequest;
 import rmiApi.entity.Alarm;
+import rmiApi.entityService.Emailservice;
+import rmiApi.entityService.SmsService;
 import rmiApi.entityService.alarmService;
 import rmiServer.serviceImpl.AlarmServiceImpl;
 import rmiServer.serviceImpl.EmailServiceImpl;
 import rmiServer.serviceImpl.SmsServiceImpl;
 import rmiServer.serviceImpl.UserServiceImpl;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+//class to retrieve new alarm details from the REST api periodically
 class CheckForUpdates extends TimerTask{
 
+    Emailservice emailService;
+    SmsService smsService;
+    alarmService alarmService;
     @Override
     public void run() {
         try {
-            AlarmServiceImpl alarmServiceImpl = new AlarmServiceImpl();
-            List <Alarm> a =  alarmServiceImpl.getAlarms();
+            //retrieve the  alarm list
+            List <Alarm> a =  alarmService.getAlarms();
 
+            /*
+            iterate through the alarm list and see if the below conidition is true if so
+            invokde sendEmail and sendSms methods
+             */
             for(Alarm al : a){
                 if(al.getCo2level() > 5 || al.getSmokeLevel() >5){
-                   EmailServiceImpl emailServiceImpl = new EmailServiceImpl();
-                    SmsServiceImpl smsServiceImpl = new SmsServiceImpl();
-                   //emailServiceImpl.sendEmail(emailServiceImpl.mailRequest(al.getFloorNum(),al.getRoomNum()));
-                   //smsServiceImpl.sendSms(smsServiceImpl.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
+
+                   emailService.sendEmail(emailService.mailRequest(al.getFloorNum(),al.getRoomNum()));
+                   smsService.sendSms(smsService.sendData(al.getFloorNum(),al.getRoomNum(),al.getCo2level(),al.getSmokeLevel()));
 
                 }
             }
@@ -50,6 +55,7 @@ class CheckForUpdates extends TimerTask{
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //registry created to run the server on port 8081
         Registry registry = LocateRegistry.createRegistry(8081);
 
         AlarmServiceImpl alarmServiceImpl = new AlarmServiceImpl();
@@ -57,8 +63,7 @@ public class Main extends Application {
         EmailServiceImpl emailServiceImpl = new EmailServiceImpl();
         SmsServiceImpl smsServiceImpl = new SmsServiceImpl();
 
-        //alarmService as = (alarmService) UnicastRemoteObject.exportObject(alarmServiceImpl,0);
-
+        //binding the remote objects
         registry.rebind("userService",userServiceImpl);
         registry.rebind("alarmService",alarmServiceImpl);
         registry.rebind("emailService",emailServiceImpl);
@@ -75,6 +80,7 @@ public class Main extends Application {
         launch(args);
         Timer timer = new Timer();
         CheckForUpdates checkForUpdates = new CheckForUpdates();
+        //timer to check for alarm status every 15 seconds 
         timer.schedule(checkForUpdates, 0, 15000);
     }
 }

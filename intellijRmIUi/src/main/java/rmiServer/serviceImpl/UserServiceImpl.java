@@ -1,7 +1,5 @@
 package rmiServer.serviceImpl;
-
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
@@ -12,15 +10,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.hildan.fxgson.FxGson;
-import rmiApi.entity.Alarm;
 import rmiApi.entity.User;
 import rmiApi.entityService.UserService;
-
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+
 
 /* Default constructor to throw RemoteException
      from its parent constructor */
@@ -29,6 +24,7 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
     public UserServiceImpl() throws RemoteException {
     }
 
+    //method implemenation to getUser details by passing the email as a paramteer
     @Override
     public User getUser(String email) throws RemoteException {
         //Set user to null
@@ -38,7 +34,7 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
          */
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
 
-            //HTTP GET method allows to get user details according to the email
+            //HTTP GET method allows to get user details according to the email using the rest api
             HttpGet httpget = new HttpGet("http://localhost:8080/getUser/"+email);
             System.out.println("Executing request " + httpget.getRequestLine());
 
@@ -68,6 +64,7 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
         return user;
     }
 
+    //method implementation to add a new user by passing a user reference
     @Override
     public User addUser(User newUser) throws RemoteException {
             //get values from User reference passed

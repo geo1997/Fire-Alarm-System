@@ -1,5 +1,4 @@
 package rmiClient.loginForm;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,11 +13,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import rmiApi.entity.User;
 import rmiApi.entityService.UserService;
-import rmiApi.entityService.alarmService;
 import rmiClient.alarmForm.AlarmForm;
 import rmiClient.client.Main;
 import rmiClient.registerForm.Register;
-
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -40,13 +37,14 @@ public class Login implements Initializable {
         private Main main;
         private UserService userService;
 
+        //login button event handler
         @FXML
         public void login() throws IOException {
 
                 if(checkEmail()){
                         if(checkPassword()){
+                                //scene is set
                                 Stage stage = (Stage) loginBtn.getScene().getWindow();
-                                // do what you have to do
                                 stage.close();
 
                                 Stage primaryStage = new Stage();
@@ -66,6 +64,7 @@ public class Login implements Initializable {
 
         }
 
+        // method to check if the email exists in the DB
         public boolean checkEmail() throws RemoteException {
                 String email = emailID.getText();
 
@@ -84,6 +83,7 @@ public class Login implements Initializable {
                 }
         }
 
+        //method to check if the password is correct
         public boolean checkPassword() throws RemoteException {
                 //get the email and password from login form
                 String email = emailID.getText();
@@ -106,6 +106,7 @@ public class Login implements Initializable {
 
         }
 
+        //Register view action event
         public void Register(ActionEvent actionEvent) throws IOException {
                 //On button click show the register view
                 Stage stage = (Stage) regBtn.getScene().getWindow();

@@ -1,7 +1,5 @@
 package rmiApi.entityService;
-
 import rmiApi.entity.Alarm;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;

@@ -57,13 +57,15 @@ D)Sensor App Usage.
 E)JavaFx and Java RMI Desktop application.
 	1.Open IntelliJ IDEA.
 	2.Go into file -> Open and select the folder intellijRmiUi
-		If you face errors that is because the IntelliJ IDEA has choosen an incompatible JDK version.
-			i. Select file->Settings ->Build,Execution,Deployment->Compiler->Java Compiler and change Target bytecode version to 8 and apply.
-			ii. Select file->Project Structure -> Modules and change Language level to 8 and apply.
+		If you face errors that is because the IntelliJ IDEA has choosen an incompatible JDK version or annotations are not read..
+			i.  Select filefile->Settings ->Build,Execution,Deployment->Annotation Processors and check Enable annotation processing.
+			ii. Select file->Settings ->Build,Execution,Deployment->Compiler->Java Compiler and change Target bytecode version to 8 and apply.
+			iii.Select file->Project Structure -> Modules and change Language level to 8 and apply.
 
 	3.If no errors you have succesfully imported the project, if the errors exist please redo the above said instructions.
 
 	E1)Starting the RMI server
+		i. Go into the 
 		i.Go into src->main-java->rmiServer and run Main.java (REST client should be running)
 
 	E2)Starting the RMI client
@@ -72,7 +74,10 @@ E)JavaFx and Java RMI Desktop application.
 
 	E3)Dealing with SMS and Email Service.
 		i.Once the RMI server is started the sms and email services will auomatically  run.
-			a) Sms service is a trail service therefore is limited, once the limit is passed an error is shwon but the program will run.
+			a) Sms service is a trial service therefore is limited, once the limit is passed an error is shown but the program will run.
+				The sms service we have used is twillio.
+				Process:
+				
 
 			b) To check the Email details log into,
 				email: distributedsystems123@gmail.com

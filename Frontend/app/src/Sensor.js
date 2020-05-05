@@ -7,14 +7,17 @@ import '@progress/kendo-theme-default/dist/all.css';
 import Logo from './images/navicon.png';
 import {Link} from 'react-router-dom';
 
+
 class Sensor extends Component {
     //initilaize the state of the variables
     state = {
         isLoading: true,
         alarms: [],
-        value: 0
+        value: 0,
+        count:40
     }
     intervalID;
+    countID;
 
     async componentDidMount() {
         /*when conponentDidMount executes run getData method and setInterval to 4 seconds
@@ -28,6 +31,32 @@ class Sensor extends Component {
                 value:this.state.value
             })
         },0);
+
+        //every 40 seconds initilaize countdown
+        this.getTimer();
+        setInterval( () =>{
+            this.setState({
+                count:40
+            })
+        },40000);
+       
+        
+    }
+    //countdown implementation
+        getTimer(){
+            this.myInterval = setInterval(() =>{
+                this.setState(prevState =>({
+                    count:this.state.count -1
+                    
+                }))
+            },1000)
+           
+           
+        }
+
+        //safetly clear the interval
+    componentWillMount(){
+        clearInterval(this.myInterval)
     }
 
     //method to fetch the alarms through the REST api
@@ -37,8 +66,10 @@ class Sensor extends Component {
         this.setState({alarms : body,isLoading: false});
     }
 
+   
     //user interface for the Sensor component
     render() {
+        const {count}= this.state;
         const {alarms,isLoading} = this.state;
         if (isLoading)
             return (<div><h3 className="text-dark">Loading...</h3></div>)
@@ -47,6 +78,8 @@ class Sensor extends Component {
                 value: this.state.value
             }
         };
+
+
 
         return (
             <div>
@@ -61,7 +94,9 @@ class Sensor extends Component {
                         </li>
                     </ul>
                 </nav>
-                <div className="text-danger mb-4 text-center">*New data will be fetched every 40 seconds</div>
+              
+                <div className="text-danger mt-4 mb-1 text-center">*New data will be fetched every 40 seconds </div>
+                <div className="text-danger mb-4 text-center">Timer: {count} seconds left</div>
                 <div className="row ml-3 mr-3">
                     {
                         alarms.map(alarm =>

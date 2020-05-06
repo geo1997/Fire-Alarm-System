@@ -1,4 +1,4 @@
-Distributed Systems Asignment 2
+Distributed Systems Assignment 2
 
 Fire Alarm System
 

@@ -70,18 +70,31 @@ E)JavaFx and Java RMI Desktop application.
 
 	E2)Starting the RMI client
 		ii.Go into src->main-java->rmiClient->client and run Main.java and you will be greeted with the login dashboard.
+			> Use credentials in G or register as a new user
 
 
 	E3)Dealing with SMS and Email Service.
 		i.Once the RMI server is started the sms and email services will auomatically  run.
 			a) Sms service is a trial service therefore is limited, once the limit is passed an error is shown but the program will run.
-				The sms service we have used is twillio.
+				The sms service we have used is twilio.
 				Process:
+					The sms is sent to only verified numbers in the twilio console.Please log into the twilio console,
+					using this link, https://www.twilio.com/login and add a verify number.
+						> Use credentials in G)
+
+				Starting with a new Twilio account:
+					To start with a new Twilio account use this link, https://www.twilio.com/try-twilio to make a new account.
+						i. Change in Spring Boot
+							>You will need to change the twillio configurations in the application.properties,
+							 twilio.account-sid,twilio.auth-token,and twilio.trial-number.
+						ii. Change in RMI server
+							> You will need to change the phone number provided in the sendData method with the number 
+							  you have verified in twilio found in the SmsServiceImpl class found within rmiServer/serviceImpl package.
 				
 
-			b) To check the Email details log into,
-				email: distributedsystems123@gmail.com
-				password:123@distributed
+			b) To check the Email that are being sent please log in using the login credentials,
+				> Use credentials in G)
+				
 
 F)Web application
 	1.Open your preffered web application code editor or IDE.
@@ -89,6 +102,14 @@ F)Web application
 	3.Open a new terminal, and use command cd app.
 	4.Next execute the command npm install.
 	5.After dependncies are succefully installed execute command npm start.
+
+
+G) Login Credentials for Java RMI client login , twilio account and email,
+	email: distributedsystems123@gmail.com
+	password:123@distributed
+
+
+
 	
 
 	

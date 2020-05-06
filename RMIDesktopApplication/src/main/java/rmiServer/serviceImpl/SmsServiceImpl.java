@@ -73,7 +73,7 @@ public class SmsServiceImpl extends UnicastRemoteObject  implements SmsService {
     @Override
     public SmsRequest sendData(int floorLevel, int RoomNum, int co2, int smoke)  throws RemoteException{
         SmsRequest sms = new SmsRequest();
-        sms.setPhoneNumber("+94718233697");
+        sms.setPhoneNumber("+94767536600");
         sms.setMessage("Alert : Co2 level: "+co2+" Smoke level: "+smoke+" In Floor "+floorLevel+" Room Number "+RoomNum);
 
         //return the sms reference with set values.

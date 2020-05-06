@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: alarmsystem
+-- Host: localhost    Database: alarmsys
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -85,7 +85,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (4,'priyan@gmail.com','priyan123'),(6,'thumalee@gmail.com','thumalee123'),(8,'haritha@gmail.com','haritha123');
+INSERT INTO `user` VALUES (4,'priyan@gmail.com','priyan123'),(6,'thumalee@gmail.com','thumalee123'),(8,'haritha@gmail.com','haritha123'),(9,'distributedsystems123@gmail.com','123@distributed');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -98,4 +98,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-01 22:37:36
+-- Dump completed on 2020-05-06 12:20:29

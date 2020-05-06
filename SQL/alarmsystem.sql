@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: alarmsys
+-- Host: localhost    Database: alarmsystem
 -- ------------------------------------------------------
 -- Server version	8.0.19
 
@@ -38,7 +38,7 @@ CREATE TABLE `alarm` (
 
 LOCK TABLES `alarm` WRITE;
 /*!40000 ALTER TABLE `alarm` DISABLE KEYS */;
-INSERT INTO `alarm` VALUES (5,1,8,5,3),(23,10,2,13,9),(7,3,1,6,2),(8,7,1,6,10),(9,5,1,21,1),(18,6,7,10,4),(11,2,6,6,9),(12,10,5,3,4),(13,9,6,5,7),(14,4,5,4,5),(22,7,3,8,4);
+INSERT INTO `alarm` VALUES (5,1,8,5,5),(23,9,2,13,6),(7,1,1,6,9),(8,5,1,6,5),(9,9,1,21,3),(18,3,7,10,7),(11,8,6,6,7),(12,8,5,3,4),(13,8,6,5,1),(14,7,5,4,8),(30,9,3,13,1),(35,4,3,6,7),(33,8,3,5,3),(34,1,2,6,2);
 /*!40000 ALTER TABLE `alarm` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +60,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (24);
+INSERT INTO `hibernate_sequence` VALUES (37);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (4,'priyan@gmail.com','priyan123'),(6,'thumalee@gmail.com','thumalee123'),(8,'haritha@gmail.com','haritha123'),(9,'distributedsystems123@gmail.com','123@distributed');
+INSERT INTO `user` VALUES (4,'priyan@gmail.com','priyan123'),(6,'thumalee@gmail.com','thumalee123'),(8,'haritha@gmail.com','haritha123'),(24,'george@gmail.com','george123'),(30,'distributedsystems123@gmail.com','123@distributed');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -98,4 +98,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-06 12:20:29
+-- Dump completed on 2020-05-06 16:43:17

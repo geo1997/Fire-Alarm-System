@@ -1,5 +1,6 @@
 package sensorApp;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 import java.util.Timer;
@@ -48,7 +49,7 @@ class SmokeValueGen extends TimerTask{
 	//method to retrieve a random alarm id
 	public int getRandomElement(List<Integer> list) 
     { 
-        Random rand = new Random(); 
+        Random rand = new SecureRandom(); 
         return list.get(rand.nextInt(list.size())); 
     } 
 	
